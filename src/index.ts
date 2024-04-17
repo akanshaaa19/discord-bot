@@ -19,6 +19,12 @@ app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
 
+app.get("/", (req, res) => {
+  res.send(
+    "https://docs.google.com/spreadsheets/d/1E9QByqH43SJD7RXWTKEBXM_Tgd3_FrFI4wO_iS1FS1c/edit#gid=2094739499"
+  );
+});
+
 const client = new DiscordJS.Client({
   intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 });
@@ -63,6 +69,8 @@ client.on("threadUpdate", async (oldThread: any, newThread: any) => {
       const startDate = dayjs(oldThread.createdTimestamp);
 
       updatedValues["Closed On"] = lastMessageAt.format("DD/MM/YYYY HH:mm:ss");
+
+      updatedValues["Total"] = newThread.totalMessageSent;
 
       updatedValues["Resolution time"] = lastMessageAt.diff(
         startDate,
